@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Pages Test</title>
+    <style>
+        body {
+            background: #0a0a0a;
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 40px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #4ade80;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .status {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .success { border-color: #4ade80; }
+        .error { border-color: #ef4444; }
+        .info { border-color: #3b82f6; }
+        pre {
+            background: #000;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            border: 1px solid #333;
+        }
+        button {
+            background: #4ade80;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #22c55e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 GitHub Pages Deployment Test</h1>
+        
+        <div class="status success">
+            <h3>✅ Basic HTML/CSS/JS Loading</h3>
+            <p>If you can see this styled page, basic assets are loading correctly!</p>
+        </div>
+
+        <div class="status info">
+            <h3>📊 Environment Information</h3>
+            <div id="env-info"></div>
+        </div>
+
+        <div class="status info">
+            <h3>🔗 Asset Loading Test</h3>
+            <div id="asset-test"></div>
+        </div>
+
+        <div class="status info">
+            <h3>🌐 Current URL Information</h3>
+            <pre id="url-info"></pre>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <button onclick="testReactApp()">Test React App Loading</button>
+            <button onclick="window.location.href='./index.html'">Go to Portfolio</button>
+        </div>
+    </div>
+
+    <script>
+        // Environment info
+        document.getElementById('env-info').innerHTML = `
+            <p><strong>User Agent:</strong> ${navigator.userAgent}</p>
+            <p><strong>Current Time:</strong> ${new Date().toLocaleString()}</p>
+            <p><strong>Screen Size:</strong> ${screen.width}x${screen.height}</p>
+        `;
+
+        // URL info
+        document.getElementById('url-info').textContent = `
+Current URL: ${window.location.href}
+Protocol: ${window.location.protocol}
+Host: ${window.location.host}
+Pathname: ${window.location.pathname}
+Base URL: ${window.location.origin}${window.location.pathname}
+        `.trim();
+
+        // Asset loading test
+        function testAssetLoading() {
+            const assets = [
+                './assets/index-Bv-XydEH.js',
+                './assets/index-B-NsKjCH.css'
+            ];
+            
+            let results = '<ul>';
+            let completed = 0;
+            
+            assets.forEach(asset => {
+                fetch(asset)
+                    .then(response => {
+                        const status = response.ok ? '✅' : '❌';
+                        results += `<li>${status} ${asset} (${response.status})</li>`;
+                    })
+                    .catch(error => {
+                        results += `<li>❌ ${asset} (Error: ${error.message})</li>`;
+                    })
+                    .finally(() => {
+                        completed++;
+                        if (completed === assets.length) {
+                            results += '</ul>';
+                            document.getElementById('asset-test').innerHTML = results;
+                        }
+                    });
+            });
+        }
+
+        function testReactApp() {
+            console.log('Testing React app...');
+            try {
+                // Try to load the React app
+                const script = document.createElement('script');
+                script.type = 'module';
+                script.src = './assets/index-Bv-XydEH.js';
+                script.onload = () => {
+                    console.log('React script loaded successfully');
+                    setTimeout(() => {
+                        const root = document.getElementById('root');
+                        if (root && root.innerHTML.trim()) {
+                            alert('✅ React app loaded successfully!');
+                        } else {
+                            alert('⚠️ React script loaded but no content rendered');
+                        }
+                    }, 2000);
+                };
+                script.onerror = () => {
+                    alert('❌ Failed to load React script');
+                };
+                
+                // Add root div if it doesn't exist
+                if (!document.getElementById('root')) {
+                    const rootDiv = document.createElement('div');
+                    rootDiv.id = 'root';
+                    document.body.appendChild(rootDiv);
+                }
+                
+                document.head.appendChild(script);
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+
+        // Run asset test on load
+        testAssetLoading();
+
+        console.log('GitHub Pages test page loaded successfully');
+        console.log('Location:', window.location.href);
+    </script>
+</body>
+</html>

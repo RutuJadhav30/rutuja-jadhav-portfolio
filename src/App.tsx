@@ -8,8 +8,8 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 
 function App() {
-  console.log('App component rendered');
-  
+  console.log("App component rendered");
+
   return (
     <div className="min-h-screen bg-black bg-animated-gradient">
       {/* Background overlay with subtle gradient */}
